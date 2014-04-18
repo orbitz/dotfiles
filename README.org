@@ -1,0 +1,36 @@
+* About
+This is my attempt at dealing with the sprawl of dotfiles
+* How's it work
+dotfiles applies a series of profiles to your $HOME directory.
+
+Each profile requiers two directories:
+
+#+BEGIN_EXAMPLE
+files
+data
+#+END_EXAMPLE
+
+Entries in ~files~ are symlinked to your ~$HOME~ directory,
+replacing anything previously there.
+
+Entries in ~data~ have their extension checked to see if it is
+~tar.gz~ or ~tar.gz.gpg~.  If it is ~tar.gz~, it is decompressed
+with the working directory set to ~$HOME~.  If it is ~tar.gz.gpg~,
+the same action is applied but run through gpg.
+* How to use it
+=dotfiles -p /path/to/profiles/dir profile1 profile2 ... profilen=
+
+Note: the absolute path is required for symlinks to work properly.
+
+Where ~/path/to/profiles/dir~ should look like:
+
+#+BEGIN_EXAMPLE
+profile1/files
+profile1/data
+profile2/files
+profile2/data
+...
+profilen/files
+profilen/data
+#+END_EXAMPLE
+
