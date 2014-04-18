@@ -55,11 +55,11 @@ while [ "$1" ]; do
 	case "$extension" in
 	    "tar.gz")
 		echo "Untaring $file to $HOME"
-		echo "tar -zxvf $file -C $HOME"
+		tar -zxvf "$file" -C "$HOME"
 		;;
 	    "tar.gz.gpg")
 		echo "Unencrypting and untaring $file to $HOME"
-		echo "gpg --decrypt < $file | tar -zvf - -C $HOME"
+		gpg --decrypt < "$file" | tar -zvf - -C "$HOME"
 		;;
 	    *)
 		echo "Unknown file type for $basefile $extension"

@@ -1,0 +1,53 @@
+#! /usr/bin/env bash
+
+set -e
+
+usage()
+{
+cat << EOF
+usage: $0 options PROFILE1 [PROFILE2] ... [PROFILEN]
+
+OPTIONS:
+   -h      Show this message
+   -p      Directory containing profiles
+EOF
+}
+
+PROFILE_DIR=""
+
+while getopts "p:" OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         p)
+             PROFILE_DIR="$OPTARG"
+             ;;
+         ?)
+             usage
+             exit 1
+             ;;
+     esac
+done
+
+if [ -z "$PROFILE_DIR" ]; then
+    echo "Must specify -p"
+    exit 1
+fi
+
+shift $((OPTIND-1))
+
+while [ "$1" ]; do
+    for file in "$PROFILE_DIR/$1/files/"* "$PROFILE_DIR/$1/files/".*; do
+	[ -e "$file" ] || continue
+	[ $(basename "$file") != "." ] || continue
+	[ $(basename "$file") != ".." ] || continue
+
+	echo "Symlinking $file to $HOME"
+	ln -fs "$file" "$HOME"
+    done
+
+    shift
+done
