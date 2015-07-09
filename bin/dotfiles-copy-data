@@ -59,7 +59,7 @@ while [ "$1" ]; do
 		;;
 	    "tar.gz.gpg")
 		echo "Unencrypting and untaring $file to $HOME"
-		gpg --decrypt < "$file" | tar -zvf - -C "$HOME"
+		gpg --decrypt < "$file" | tar -zxvf - -C "$HOME"
 		;;
 	    *)
 		echo "Unknown file type for $basefile $extension"
